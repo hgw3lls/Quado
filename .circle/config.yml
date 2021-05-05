@@ -12,7 +12,7 @@ workflows:
             - build
           filters:
             branches:
-              only: sequential-branch-filter
+              only: main
 jobs:
   build:
     docker:
@@ -29,8 +29,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r backend/requirements.txt
-            pip install -r frontend/requirements.txt
+            pip install -r requirements.txt
       # Step 3: run linter and tests
       - run:
           name: run tests
@@ -38,3 +37,13 @@ jobs:
             . venv/bin/activate
             flake8 --exclude=venv* --statistics
             pytest -v --cov=calculator
+      # Step 4: build docker images
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t quado-frontend -f frontend/Dockerfile . 
+            docker build -t quado-backend -f backend/Dockerfile .  
+            docker-compose up -d --build
+            docker images
