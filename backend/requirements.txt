@@ -1,7 +1,0 @@
-streamlit
-fastapi
-uvicorn
-
-# dev
-pytest
-requests

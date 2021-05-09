@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 import uvicorn
 from typing import Optional
 from pydantic import BaseModel
@@ -24,12 +24,12 @@ def read_root():
 
 @app.post("/process_text/")
 async def process_text(text: Processor_text):
-    return text # {"message": " posted to the text processor API"}
+    return text  # {"message": " posted to the text processor API"}
 
 
 @app.post("/generate_report/")
 async def generate_report(text: Report_text):
-    return text # {"message": "posted to the report generator API"}
+    return text  # {"message": "posted to the report generator API"}
 
 
 if __name__ == "__main__":

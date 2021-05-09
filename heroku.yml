@@ -3,7 +3,7 @@ setup:
     #- plan: heroku-redis
     #  as: REDIS
   config:
-    APP_NAME: quado-heroku-dockerize
+    APP_NAME: quado-dockerize
 build:
   docker:
     web: backend/Dockerfile
