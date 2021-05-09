@@ -2,7 +2,10 @@ version: '3.4'
 
 services:
   frontend:
-    build: frontend
+    image: quado-frontend:circleci
+    build:
+      context: ./frontend/
+      dockerfile: ./Dockerfile.web
     ports:
       - 8501:8501
     depends_on:
@@ -10,8 +13,27 @@ services:
     volumes:
         - ./storage:/storage
   backend:
-    build: backend
+    image: quado-backend:circleci
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile.worker
     ports:
       - 8080:8080
     volumes:
       - ./storage:/storage
+
+
+
+# services:
+#   frontend:
+#     image: awesome/webapp
+#     build: ./webapp
+
+#   backend:
+#     image: awesome/database
+#     build:
+#         context: backend
+#         dockerfile: ../backend.Dockerfile
+
+#   custom:
+#     build: ~/custom

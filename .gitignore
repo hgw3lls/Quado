@@ -1,6 +1,7 @@
 # files/foders to ignore
 playground.py
 build.sh
+log.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

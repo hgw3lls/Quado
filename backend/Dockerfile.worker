@@ -18,4 +18,5 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["python", "--server.port $PORT", "main.py"]
+# CMD ["python", "--server.port $PORT", "main.py"]
+CMD python main.py
