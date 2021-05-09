@@ -34,25 +34,25 @@ jobs:
             docker build -t quado-frontend -f frontend/Dockerfile . 
             docker build -t quado-backend -f backend/Dockerfile .  
             docker images
-deploy:
-  executor: heroku/default
-  steps:
-    - checkout
-    - run:
-        name: Storing previous commit
-        command: |
-          git rev-parse HEAD > ./commit.txt
-    - heroku/install
-    - setup_remote_docker:
-        version: 18.06.0-ce
-    - run:
-        name: Pushing to heroku registry
-        command: |
-            heroku container:login 
-            heroku container:push quado-backend --arg NODE_ENV=production -a $HEROKU_APP_NAME
-            heroku container:release quado-backend -a $HEROKU_APP_NAME
-            heroku container:push quado-frontend --arg NODE_ENV=production -a $HEROKU_APP_NAME
-            heroku container:release quado-frontend -a $HEROKU_APP_NAME
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - run:
+          name: Storing previous commit
+          command: |
+            git rev-parse HEAD > ./commit.txt
+      - heroku/install
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run:
+          name: Pushing to heroku registry
+          command: |
+              heroku container:login 
+              heroku container:push quado-backend --arg NODE_ENV=production -a $HEROKU_APP_NAME
+              heroku container:release quado-backend -a $HEROKU_APP_NAME
+              heroku container:push quado-frontend --arg NODE_ENV=production -a $HEROKU_APP_NAME
+              heroku container:release quado-frontend -a $HEROKU_APP_NAME
 workflows:
   build-test-deploy:
     jobs:
