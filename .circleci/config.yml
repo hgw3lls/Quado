@@ -1,20 +1,8 @@
 version: 2.1
-
 orbs:
     heroku: circleci/heroku@1.2.6 # Invoke the Heroku orb
-
-workflows:
-  heroku_deploy:
-    jobs:
-      - build
-      - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
-          requires:
-            - build
-          filters:
-            branches:
-              only: main
 jobs:
-  build:
+  build-and-test:
     docker:
       - image: circleci/python:3.7
 
@@ -46,3 +34,32 @@ jobs:
             docker build -t quado-frontend -f frontend/Dockerfile . 
             docker build -t quado-backend -f backend/Dockerfile .  
             docker images
+deploy:
+  executor: heroku/default
+  steps:
+    - checkout
+    - run:
+        name: Storing previous commit
+        command: |
+          git rev-parse HEAD > ./commit.txt
+    - heroku/install
+    - setup_remote_docker:
+        version: 18.06.0-ce
+    - run:
+        name: Pushing to heroku registry
+        command: |
+            heroku container:login 
+            heroku container:push quado-backend --arg NODE_ENV=production -a $HEROKU_APP_NAME
+            heroku container:release quado-backend -a $HEROKU_APP_NAME
+            heroku container:push quado-frontend --arg NODE_ENV=production -a $HEROKU_APP_NAME
+            heroku container:release quado-frontend -a $HEROKU_APP_NAME
+workflows:
+  build-test-deploy:
+    jobs:
+      - build-and-test
+      - deploy: # Use the pre-configured job, deploy-via-git
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only: main
