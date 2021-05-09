@@ -31,8 +31,8 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t quado-frontend -f frontend/Dockerfile . 
-            docker build -t quado-backend -f backend/Dockerfile .  
+            docker build -t quado-frontend:circleci -f frontend/Dockerfile . 
+            docker build -t quado-backend:circleci -f backend/Dockerfile .  
             docker images
   deploy:
     executor: heroku/default
