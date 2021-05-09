@@ -31,8 +31,8 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t quado-frontend:circleci -f frontend/Dockerfile . 
-            docker build -t quado-backend:circleci -f backend/Dockerfile .  
+            docker build -t quado-frontend:circleci -f frontend/Dockerfile.web . 
+            docker build -t quado-backend:circleci -f backend/Dockerfile.worker .  
             docker images
   deploy:
     executor: heroku/default
@@ -49,10 +49,8 @@ jobs:
           name: Pushing to heroku registry
           command: |
               heroku container:login 
-              heroku container:push quado-backend --arg NODE_ENV=production -a $HEROKU_APP_NAME
-              heroku container:release quado-backend -a $HEROKU_APP_NAME
-              heroku container:push quado-frontend --arg NODE_ENV=production -a $HEROKU_APP_NAME
-              heroku container:release quado-frontend -a $HEROKU_APP_NAME
+              heroku container:push web worker --recursive --arg NODE_ENV=production -a $HEROKU_APP_NAME
+              heroku container:release web worker -a $HEROKU_APP_NAME
 workflows:
   build-test-deploy:
     jobs:
