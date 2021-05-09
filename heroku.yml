@@ -6,8 +6,8 @@ setup:
     APP_NAME: quado-dockerize
 build:
   docker:
-    worker: backend/Dockerfile
-    web: frontend/Dockerfile
+    worker: backend/Dockerfile.worker
+    web: frontend/Dockerfile.web
   config:
     NODE_ENV: production
 #run:
