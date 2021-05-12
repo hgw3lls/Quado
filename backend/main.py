@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-import uvicorn
+# import uvicorn
 from typing import Optional
 from pydantic import BaseModel
 

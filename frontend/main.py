@@ -32,6 +32,8 @@ selected = st.text_input("", "Enter research topic...")
 # button_clicked = st.button("OK")
 
 if st.button("search"):
-    res = requests.get("http://backend:8080/") #TO DO: LINK FRONT END AND BACKEND!
-    #res = requests.get("http://0.0.0.0:8080") 
+    res = requests.get(
+        "http://backend:8080/"
+    )  # TO DO: LINK FRONT END AND BACKEND!
+    # res = requests.get("http://0.0.0.0:8080")
     st.title(res.json())
