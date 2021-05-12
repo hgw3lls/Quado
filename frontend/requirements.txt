@@ -26,7 +26,9 @@ filelock==3.0.12
 flake8==3.9.1
 gitdb==4.0.7
 GitPython==3.1.14
+gunicorn==20.1.0
 h11==0.12.0
+httptools==0.2.0
 identify==2.2.4
 idna==2.10
 iniconfig==1.1.1
@@ -100,8 +102,10 @@ typing-extensions==3.10.0.0
 tzlocal==2.1
 urllib3==1.26.4
 uvicorn==0.13.4
+uvloop==0.15.2
 validators==0.18.2
 virtualenv==20.4.6
 wcwidth==0.2.5
 webencodings==0.5.1
+websockets==9.0.1
 widgetsnbextension==3.5.1

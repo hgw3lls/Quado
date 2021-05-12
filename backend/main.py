@@ -31,6 +31,7 @@ async def process_text(text: Processor_text):
 async def generate_report(text: Report_text):
     return text  # {"message": "posted to the report generator API"}
 
-
+'''
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8080)
+'''

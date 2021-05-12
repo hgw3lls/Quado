@@ -2,25 +2,34 @@ version: '3.4'
 
 services:
   frontend:
-    image: quado-frontend:circleci
     build:
       context: ./frontend/
-      dockerfile: ./Dockerfile.web
+      dockerfile: ./Dockerfile
+    image: quadocontaineregistry.azurecr.io/quado-frontend
     ports:
       - 8501:8501
     depends_on:
       - backend
-    volumes:
-        - ./storage:/storage
+    # volumes:
+    #  - quado-volume:/mount/quadovolumes
   backend:
-    image: quado-backend:circleci
     build:
       context: ./backend/
-      dockerfile: Dockerfile.worker
+      dockerfile: Dockerfile
+    image: quadocontaineregistry.azurecr.io/quado-backend
     ports:
       - 8080:8080
-    volumes:
-      - ./storage:/storage
+    # volumes:
+    #   - quado-volume:/mount/quadovolumes
+
+
+# volumes:
+#   mydata:
+#     driver: azure_file
+#     driver_opts:
+#       share_name: quadofileshare
+#       storage_account_name: quadostorageaccount
+
 
 
 

@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
-    # azure-acr: circleci/azure-acr@0.2.0
-    azure-cli: circleci/azure-cli@1.1.0
+    heroku: circleci/heroku@1.2.6 # Invoke the Heroku orb
 jobs:
   build-and-test:
     docker:
@@ -30,29 +29,33 @@ jobs:
       - setup_remote_docker:
           version: 18.06.0-ce
       - run:
-          name: Build Docker image with docker-compose
+          name: Build Docker image
           command: |
-            docker-compose up --build 
+            docker build -t quado-frontend:circleci -f frontend/Dockerfile.web . 
+            docker build -t quado-backend:circleci -f backend/Dockerfile.worker .  
             docker images
   deploy:
-    executor: azure-cli/azure-docker
+    executor: heroku/default
     steps:
       - checkout
-      - azure-cli/login-with-service-principal
       - run:
-          name: login to quadocontaineregistry, build and push containers
+          name: Storing previous commit
           command: |
-            az acr login --name quadocontaineregistry
-            docker-compose up --build -d
-            docker ps
-            docker-compose down
-            docker-compose push
-            docker --context quado-context compose up
+            git rev-parse HEAD > ./commit.txt
+      - heroku/install
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run:
+          name: Pushing to heroku registry
+          command: |
+              heroku container:login 
+              heroku container:push web worker --recursive --arg NODE_ENV=production -a $HEROKU_APP_NAME
+              heroku container:release web worker -a $HEROKU_APP_NAME
 workflows:
   build-test-deploy:
     jobs:
       - build-and-test
-      - deploy: #
+      - deploy: # Use the pre-configured job, deploy-via-git
           requires:
             - build-and-test
           filters:

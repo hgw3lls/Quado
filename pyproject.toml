@@ -1,2 +1,3 @@
 [tool.black]
 line-length = 79
+uvicorn = {extras = ["standard"], version = "^0.12.0"}
