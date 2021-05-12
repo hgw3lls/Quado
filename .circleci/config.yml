@@ -44,7 +44,7 @@ jobs:
       - run:
           name: login to quadocontaineregistry, build and push containers
           command: |
-            docker login quadocontaineregistry.azurecr.io --username $SP_APP_ID --password $SP_PASSWD
+            docker login azure --client-id $SP_APP_ID --client-secret $SP_PASSWD --tenant-id $SP_TENANT_ID  
             docker-compose up --build -d
             docker ps
             docker-compose down
