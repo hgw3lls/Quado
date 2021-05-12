@@ -35,7 +35,9 @@ jobs:
             docker-compose up --build -d
             docker images
   deploy:
-    executor: azure-cli/azure-docker
+    # executor: azure-cli/azure-docker
+    docker:
+      - image: circleci/python:3.7
     steps:
       - checkout
       - azure-cli/login-with-service-principal
