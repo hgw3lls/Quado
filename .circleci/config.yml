@@ -42,7 +42,6 @@ jobs:
       - run:
           name: login to quadocontaineregistry, build and push containers
           command: |
-            az acr login --name quadocontaineregistry
             docker-compose up --build -d
             docker ps
             docker-compose down
