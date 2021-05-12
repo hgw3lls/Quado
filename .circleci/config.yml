@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Build Docker image with docker-compose
           command: |
-            docker-compose up --build 
+            docker compose up --build -d
             docker images
   deploy:
     executor: azure-cli/azure-docker
@@ -47,7 +47,7 @@ jobs:
             docker ps
             docker-compose down
             docker-compose push
-            docker --context quado-context compose up
+            docker --context quado-context compose up -d
 workflows:
   build-test-deploy:
     jobs:
