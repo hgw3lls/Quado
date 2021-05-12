@@ -40,10 +40,11 @@ jobs:
       - image: circleci/python:3.7
     steps:
       - checkout
-      - azure-cli/login-with-service-principal
+      # - azure-cli/login-with-service-principal
       - run:
           name: login to quadocontaineregistry, build and push containers
           command: |
+            docker login quadocontaineregistry.azurecr.io --username $SP_APP_ID --password $SP_PASSWD
             docker-compose up --build -d
             docker ps
             docker-compose down
