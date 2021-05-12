@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Build Docker image with docker-compose
           command: |
-            docker compose up --build -d
+            docker-compose up --build -d
             docker images
   deploy:
     executor: azure-cli/azure-docker
